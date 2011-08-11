@@ -22,4 +22,5 @@ bin/ia
   s.add_development_dependency('rdoc')
   s.add_dependency('gli')
   s.add_dependency('rainbow')
+  s.add_dependency('simple_progressbar')
 end

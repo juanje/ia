@@ -1,3 +1,5 @@
+require 'simple_progressbar'
+
 module Ia::Utils
   # Imprime un mensaje del tipo informativo
   # * msg(String): mensaje
@@ -19,4 +21,14 @@ module Ia::Utils
   def perr(msg,level = 1)
     puts " " * level + "* ".color(:red) + msg
   end
+
+  def pbar(msg,counter=3)
+    SimpleProgressbar.new.show(msg) do
+      (0..counter).each {|i|
+        progress i*10
+        sleep(1)
+      }
+    end
+  end
+
 end

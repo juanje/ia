@@ -15,46 +15,67 @@ require 'rubygems'
 require 'gli'
 require 'rainbow'
 
-require 'ia_version'
+require 'ia_base'
 require 'ia_utils'
 require 'ia_fs'
+require 'ia_drupal'
 require 'ia_svn'
 
 include GLI
 
 include Ia::Utils
 include Ia::Fs
+include Ia::Drupal::Files
 include Ia::Svn
 
 program_desc 'Internet Automator'
 
 version Ia::VERSION
 
-# desc 'Describe some switch here'
-# switch [:s,:switch]
+desc 'Commitear cambios al repositorio donde es posible'
+switch [:c,:commit]
+
+desc 'Pretende ejecutar la accion pero solo muestra que pasaria (no todos los comandos lo soportan)'
+switch [:p,:pretend]
 
 # desc 'Describe some flag here'
 # default_value 'the default'
 # arg_name 'The name of the argument'
 # flag [:f,:flagname]
 
+desc 'Busca potenciales mejoras relacionadas con los ficheros y la estructura'
+# arg_name 'files [command[ command]*'
+command :drupal do |c|
+  c.desc 'Remove insecure files'
+  c.switch [:rm,:rmfiles]
+
+  c.action do |global_options,options,args|
+    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+
+    if options[:rmfiles]
+      pinfo('Buscando archivos inseguros')
+      drupal_rm_files(global_options[:pretend])
+    end
+  end
+end
+
 desc 'Crear o modifica la estructura del repositorio svn'
 long_desc 'El comando svn manipula el repositorio svn en el que se ejecuta. Se debe ejecutar en la raiz del repositorio'
-arg_name 'init [command[ command]*]'
+# arg_name 'init [command[ command]*]'
 command :svn do |c|
-  c.desc 'Sube la estructura al crearla.'
-  c.switch [:commit,:c]
+  c.desc 'Crea estructura inicial en el repositorio.'
+  c.switch [:i,:init]
 
   # c.desc 'Describe a flag to svn'
   # c.default_value 'default'
   # c.flag :f
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando".color(:red) unless args.size == 1
+    raise "Necesitas especificar un comando y una opcion".color(:red) unless options.size >= 1
     raise "El directorio actual no es un repositorio".color(:red) unless FileTest::directory?('.svn')
 
-    if args[0] == 'init'
+    if options[:init]
       pinfo("Creando estructura SVN...")
-      svn_scaffold(options[:commit])
+      svn_scaffold(global_options[:commit])
     end
 
   end
@@ -66,6 +87,11 @@ pre do |global,command,options,args|
   # chosen command
   # Use skips_pre before a command to skip this block
   # on that command only
+  if global[:commit]
+    puts('*** los cambios seran aplicados al repo (3s para cancelar ctrl+c) *** '.color(:yellow))
+    sleep 3
+  end
+  
   true
 end
 
