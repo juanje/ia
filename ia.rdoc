@@ -1,5 +1,34 @@
-= ia
+= <tt>ia</tt>
 
-Generate this with
-    ia rdoc
-After you have described your command line interface
+Internet Automator
+
+    ia command_name [command-specific options] [--] arguments...
+
+* Use the command +help+ to get a summary of commands
+* Use the command <tt>help command_name</tt> to get a help for +command_name+
+* Use <tt>--</tt> to stop command line argument processing; useful if your arguments have dashes in them
+
+== Commands
+[<tt>help</tt>] Shows list of commands or help for one command
+[<tt>svn</tt>] Crear o modifica la estructura del repositorio svn
+
+=== <tt>help [command]</tt>
+
+Shows list of commands or help for one command
+
+Gets help for the application or its commands.  Can also list the commands in a way helpful to creating a bash-style completion function
+
+==== Options
+These options are specified *after* the command.
+
+[<tt>-c, --completion</tt>] List all commands one line at a time, for use with shell completion ([command] argument is partial command to match)
+=== <tt>svn init [command[ command]*]</tt>
+
+Crear o modifica la estructura del repositorio svn
+
+El comando svn manipula el repositorio svn en el que se ejecuta. Se debe ejecutar en la raiz del repositorio
+
+==== Options
+These options are specified *after* the command.
+
+[<tt>--commit, -c</tt>] Sube la estructura al crearla.

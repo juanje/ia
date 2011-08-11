@@ -3,11 +3,11 @@ require File.join([File.dirname(__FILE__),'lib','ia_version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'ia'
   s.version = Ia::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.author = 'JoseAlberto Suárez López'
+  s.email = 'jasuarez@emergya.com'
+  s.homepage = ''
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Internet Automator'
 # Add your other files here if you make them
   s.files = %w(
 bin/ia
@@ -20,4 +20,6 @@ bin/ia
   s.executables << 'ia'
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
+  s.add_dependency('gli')
+  s.add_dependency('rainbow')
 end

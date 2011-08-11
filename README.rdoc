@@ -1,6 +1,8 @@
 = ia
 
-Describe your project here
+IA is a simple modular CLI automator for specific tasks
+
+Author: José Alberto Suárez López
 
 :include:ia.rdoc
 
