@@ -10,7 +10,7 @@ module Ia::Svn
 
     if commit == true
       pinfo("commit de estrucura inicial",2)
-      system("svn ci -m 'Estructura inicial'") if commit == true
+      system("svn ci -m 'Estructura inicial'")
     end
   end
 end
