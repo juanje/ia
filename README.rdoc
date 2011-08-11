@@ -6,10 +6,10 @@ Author: José Alberto Suárez López
 
 Ejemplo de uso:
 
-# Crear estructura de svn y commitear
+Crear estructura de svn y commitear:
 ia -c svn --init
 
-# Borrar archivos potencialmente peligrosos de drupal
+Borrar archivos potencialmente peligrosos de drupal:
 ia -c drupal --rmfiles
 
 :include:ia.rdoc
