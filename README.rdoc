@@ -10,7 +10,7 @@ Crear estructura de svn y commitear:
 ia -c svn --init
 
 Borrar archivos potencialmente peligrosos de drupal:
-ia -c drupal --rmfiles
+ia drupal --rmfiles
 
 :include:ia.rdoc
 
