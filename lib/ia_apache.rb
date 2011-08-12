@@ -39,10 +39,24 @@ module Ia::Apache
     }
 
     path ||= "/etc/apache2/sites-available"
+
+    raise "El archivo ya existe, borralo primero" if FileTest.exists?("#{path}/#{name}")
+
     file = File.new("#{path}/#{name}", "w")
     file.write(config)
     file.close
     
+  end
+
+  # Activa la configuracion y recarga apache
+  def apache_enable_site(name)
+    pinfo("Activando configuracion..")
+    system("a2ensite #{name}")
+
+    puts('*** Apache va a recargarse (3s para cancelar ctrl+c) *** '.color(:yellow))
+    sleep 3
+
+    system("service apache2 reload")
   end
 
 end

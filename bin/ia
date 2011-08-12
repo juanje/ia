@@ -56,12 +56,16 @@ command :apache do |c|
   c.arg_name 'ruta'
   c.flag [:r,:path]
 
+  c.desc 'Activa la configuracion y recarga apache'
+  c.switch [:e,:enable]
+
   c.action do |global_options,options,args|
     raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
 
     if options[:generate]
       pinfo('Generando configuracion de Apache')
       apache_gen_config_file(options[:generate],options[:path])
+      apache_enable_site(options[:generate]) if options[:enable]
     end
   end
 end
