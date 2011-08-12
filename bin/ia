@@ -19,12 +19,14 @@ require 'ia_base'
 require 'ia_utils'
 require 'ia_fs'
 require 'ia_drupal'
+require 'ia_apache'
 require 'ia_svn'
 
 include GLI
 
 include Ia::Utils
 include Ia::Fs
+include Ia::Apache
 include Ia::Drupal::Files
 include Ia::Svn
 
@@ -42,6 +44,27 @@ switch [:p,:pretend]
 # default_value 'the default'
 # arg_name 'The name of the argument'
 # flag [:f,:flagname]
+
+desc 'Interactua con apache modificando archivos de configuracion'
+# arg_name 'files [command[ command]*'
+command :apache do |c|
+  c.desc 'Genera configuracion de apache para un proyecto'
+  c.arg_name 'nombre del proyecto'
+  c.flag [:g,:generate]
+
+  c.desc 'Especifica una ruta para guardar el archivo'
+  c.arg_name 'ruta'
+  c.flag [:r,:path]
+
+  c.action do |global_options,options,args|
+    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+
+    if options[:generate]
+      pinfo('Generando configuracion de Apache')
+      apache_gen_config_file(options[:generate],options[:path])
+    end
+  end
+end
 
 desc 'Busca potenciales mejoras relacionadas con los ficheros y la estructura'
 # arg_name 'files [command[ command]*'
