@@ -12,5 +12,22 @@ ia -c svn --init
 Borrar archivos potencialmente peligrosos de drupal:
 ia drupal --rmfiles
 
+= License
+
+This file is part of Proyecto Internet Automator
+This project provide a set of scripts/utilities to automatize some 
+develop and syste tasks
+
+
+This software is free software; you can redistribute it and/or modify
+it under the terms of the MIT license.
+
+This software is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MIT License for more details.
+
+Authors:: Jose Alberto Suarez Lopez (mailto:jasuarez@emergya.com)
+
 :include:ia.rdoc
 
