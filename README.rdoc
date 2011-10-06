@@ -12,6 +12,12 @@ ia -c svn --init
 Borrar archivos potencialmente peligrosos de drupal:
 ia drupal --rmfiles
 
+= Documentation
+
+For more documentation visit the wiki:
+
+http://github.com/Emergya/ia/wiki
+
 = License
 
 This file is part of Proyecto Internet Automator
@@ -28,6 +34,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 MIT License for more details.
 
 Authors:: Jose Alberto Suarez Lopez (mailto:jasuarez@emergya.com)
-
-:include:ia.rdoc
 

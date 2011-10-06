@@ -31,7 +31,7 @@ require 'rubygems'
 require 'gli'
 require 'rainbow'
 
-require 'ia_base'
+require 'ia_version'
 require 'ia_utils'
 require 'ia_fs'
 require 'ia_drupal'

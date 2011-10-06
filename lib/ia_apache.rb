@@ -45,6 +45,8 @@ module Ia::Apache
     file = File.new("#{path}/#{name}", "w")
     file.write(config)
     file.close
+
+    pinfo("Recuerda activar el virtualhost y recargar apache: ia apache -g #{$name} -e ")
     
   end
 
@@ -59,4 +61,4 @@ module Ia::Apache
     system("service apache2 reload")
   end
 
-end
+ end
