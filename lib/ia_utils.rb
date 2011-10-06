@@ -31,4 +31,14 @@ module Ia::Utils
     end
   end
 
+  # Parseador de ficheros YAML
+  def yaml_read(file)
+    if FileTest.exists?(file)
+      require 'yaml'
+      YAML.load_file(file)
+    else
+      perr("El archivo #{file} no existe.")
+    end
+  end
+
 end

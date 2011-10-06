@@ -37,6 +37,7 @@ require 'ia_fs'
 require 'ia_drupal'
 require 'ia_apache'
 require 'ia_svn'
+require 'ia_redmine'
 
 include GLI
 
@@ -45,6 +46,7 @@ include Ia::Fs
 include Ia::Apache
 include Ia::Drupal::Files
 include Ia::Svn
+include Ia::Redmine
 
 program_desc 'Internet Automator'
 
@@ -121,6 +123,23 @@ command :svn do |c|
       svn_scaffold(global_options[:commit])
     end
 
+  end
+end
+
+desc 'Interactua con Redmine usando un archivo en formato CSV'
+long_desc 'Este comando usa un archivo CSV (exportado de uan hoja de calculo por ejemplo) para interactuar con un Redmine concreto. Necesita una url y una apikey configurada'
+command :redmine do |c|
+  c.desc 'Exporta un archivo CSV a Redmine usando REST'
+  c.arg_name 'Archivo CSV para leer'
+  c.flag [:e,:export]
+  
+  c.action do |global_options,options,args|
+    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+
+    if options[:export]
+      pinfo('Exportando tareas a Redmine')
+      redmine_export_csv(options[:export])
+    end
   end
 end
 

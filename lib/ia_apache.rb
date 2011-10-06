@@ -47,7 +47,6 @@ module Ia::Apache
     file.close
 
     pinfo("Recuerda activar el virtualhost y recargar apache: ia apache -g #{$name} -e ")
-    
   end
 
   # Activa la configuracion y recarga apache
@@ -55,7 +54,7 @@ module Ia::Apache
     pinfo("Activando configuracion..")
     system("a2ensite #{name}")
 
-    puts('*** Apache va a recargarse (3s para cancelar ctrl+c) *** '.color(:yellow))
+    pwarn('*** Apache va a recargarse (3s para cancelar ctrl+c) *** '.color(:yellow))
     sleep 3
 
     system("service apache2 reload")
