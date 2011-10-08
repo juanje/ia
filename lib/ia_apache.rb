@@ -6,6 +6,7 @@ module Ia::Apache
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   ServerName #{name}-dev.emergya-gpi.es
+  ServerAlias *.#{name}-dev.emergya-gpi.es
   DocumentRoot /var/www/projects/#{name}/trunk
   <Directory /var/www/projects/#{name}/trunk>
     Options FollowSymLinks
@@ -23,6 +24,7 @@ module Ia::Apache
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   ServerName #{name}-test.emergya-gpi.es
+  ServerAlias *.#{name}-test.emergya-gpi.es
   DocumentRoot /var/www/projects/#{name}/branches/prod
   <Directory /var/www/projects/#{name}/branches/prod>
     Options FollowSymLinks
