@@ -5,7 +5,18 @@ module Ia::Drupal
     # Busca archivos potencialmente inseguros y los borra si existen
     # pretend (Boolean): si es verdadero solo imprime las modificaciones
     def drupal_rm_files(pretend)
-      txt_files = %w(CHANGELOG.txt CONTRIBUTORS.es.txt COPYRIGHT.txt INSTALL.mysql.txt INSTALL.pgsql.txt INSTALL.txt LICENSE.es.txt LICENSE.txt MAINTAINERS.txt README.es.txt STATUS.es.txt UPGRADE.txt)
+      txt_files = %w(CHANGELOG.txt
+                     CONTRIBUTORS.es.txt
+                     COPYRIGHT.txt
+                     INSTALL.mysql.txt
+                     INSTALL.pgsql.txt
+                     INSTALL.txt
+                     LICENSE.es.txt
+                     LICENSE.txt
+                     MAINTAINERS.txt
+                     README.es.txt
+                     STATUS.es.txt
+                     UPGRADE.txt)
       php_files = %w(install.php phpinfo.php)
       files = txt_files + php_files
       files.each do |f|
