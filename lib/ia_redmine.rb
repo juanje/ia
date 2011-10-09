@@ -25,7 +25,16 @@ module Ia::Redmine
     end
 
     data.each do |row|
-      issue = RedmineClient::Issue.new(:subject => row[0].to_s, :description => row[1].to_s, :project_id => row[2].to_i, :category_id => row[3].to_i, :fixed_version_id => row[4].to_i, :estimated_hours => row[5].to_i, :assigned_to_id => row[6].to_i, :parent_id => row[7].to_i)
+      issue = RedmineClient::Issue.new(
+                                       :subject => row[0].to_s,
+                                       :description => row[1].to_s,
+                                       :project_id => row[2].to_i,
+                                       :category_id => row[3].to_i,
+                                       :fixed_version_id => row[4].to_i,
+                                       :estimated_hours => row[5].to_i,
+                                       :assigned_to_id => row[6].to_i,
+                                       :parent_id => row[7].to_i
+                                      )
 
       if issue.save
         pinfo("Created issue: #{issue.id}")

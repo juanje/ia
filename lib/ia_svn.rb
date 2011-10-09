@@ -3,7 +3,14 @@ module Ia::Svn
   # Crea una estructura de directorios definida en el array "dirs"
   # * commit(Boolean): si es true añade y sube los cambios al repositorio
   def svn_scaffold(commit = false)
-    dirs = ['doc','doc/calidad','doc/evidencias','doc/gestion_proyecto','doc/entregables','tags','trunk','branches']
+    dirs = ['doc',
+            'doc/calidad',
+            'doc/evidencias',
+            'doc/gestion_proyecto',
+            'doc/entregables',
+            'tags',
+            'trunk',
+            'branches']
     
     dirs.each do |d|
       create_dir(d)
