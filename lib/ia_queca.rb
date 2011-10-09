@@ -64,12 +64,12 @@ exit if newrev.nil? or newrev == null_ref
 # update the working copy
 `umask 002 && git reset --hard`}
 
-    hook_file = "#{path}/#{name}/.git/hooks/post-receive"
+    hook_file = "#{proj_path}/#{name}/.git/hooks/post-receive"
     file = File.new(hook_file, "w")
     file.write(hook)
     file.close
 
-    system("chmod +x #{path}/#{name}/.git/hooks/post-receive")
+    system("chmod +x #{proj_path}/#{name}/.git/hooks/post-receive")
 
     pinfo("Hook de deploy creado")
 
