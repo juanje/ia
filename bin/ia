@@ -38,6 +38,7 @@ require 'ia_drupal'
 require 'ia_apache'
 require 'ia_svn'
 require 'ia_redmine'
+require 'ia_queca'
 
 include GLI
 
@@ -47,6 +48,7 @@ include Ia::Apache
 include Ia::Drupal::Files
 include Ia::Svn
 include Ia::Redmine
+include Ia::Queca
 
 program_desc 'Internet Automator'
 
@@ -58,10 +60,36 @@ switch [:c,:commit]
 desc 'Pretende ejecutar la accion pero solo muestra que pasaria (no todos los comandos lo soportan)'
 switch [:p,:pretend]
 
-# desc 'Describe some flag here'
-# default_value 'the default'
-# arg_name 'The name of the argument'
-# flag [:f,:flagname]
+desc 'Servidor remoto donde ejecutar los comandos. (QuecaSDK)'
+default_value 'queca.lan'
+arg_name 'Remote Queca server'
+flag [:r,:remote]
+
+desc 'Interactua con QuecaSDK'
+command :queca do |c|
+  c.desc 'Prepara el repositorio remoto y el local para poder hacer despliegues en QuecaSDK'
+  c.arg_name 'nombre del proyecto'
+  c.flag [:d,:deploy]
+  
+  c.desc 'Inicializa el repo en QuecaSDK (avanzado)'
+  c.arg_name 'nombre del proyecto'
+  c.flag [:initremote]
+
+  c.action do |global_options,options,args|
+    raise "Necesitas especificar un comando".color(:red) unless options.size > 0
+
+    if options[:deploy]
+      pwarn "Se intentara conectar al servidor #{global_options[:remote]}"
+      puts('*** Este comando debe ejecutarse dentro del repo de trabajo y con QuecaSDK activo (3s para cancelar ctrl+c) *** '.color(:yellow))
+      sleep 3
+
+      queca_prepare_deploy(options[:deploy],global_options[:remote])
+    elsif options[:initremote]
+      queca_init_remote_git(option[:initremote])
+    end
+  end
+
+end
 
 desc 'Interactua con apache modificando archivos de configuracion'
 # arg_name 'files [command[ command]*'

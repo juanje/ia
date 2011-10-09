@@ -1,8 +1,24 @@
 module Ia::Queca
 
-  def queca_init_proj(name)
+  # Ejecuta ia queca --init-remote PROJ en QuecaSDK y depues
+  # configura el repo de trabajo para poder hacer push a QuecaSDK
+  def queca_prepare_deploy(name,remote)
+    pinfo("Ejecutando ia queca --initremote en ${remote}")
+    if system("ping -c 1 #{remote}")
+      system("ssh user@#{remote} -c 'ia queca --initremote #{name}'")
+      queca_init_host_git(name,remote)
+    else
+      perr("El servidor #{remote} no responde")
+    end
+  end
+
+  # Inicializa un git vacio y configurado para permiter push de otro repo
+  # además añade un hook que actualiza al hacer un push desde el repo de trabajo (deploy)
+  def queca_init_remote_git(name)
     proj_path = "/var/www/projects"
     system("mkdir #{proj_path}/#{name} && cd #{proj_path}/#{name} && git init && git config receive.denycurrentbranch ignore")
+
+    pinfo("Git iniciado y configurado en #{proj_path}/#{name}")
 
     hook = %{#!/home/user/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
 
@@ -48,21 +64,24 @@ exit if newrev.nil? or newrev == null_ref
 # update the working copy
 `umask 002 && git reset --hard`}
 
-    hook_path = "#{path}/#{name}/.git/hooks/post-receive"
-    file = File.new(hook_path, "w")
+    hook_file = "#{path}/#{name}/.git/hooks/post-receive"
+    file = File.new(hook_file, "w")
     file.write(hook)
     file.close
-    
+
     system("chmod +x #{path}/#{name}/.git/hooks/post-receive")
 
+    pinfo("Hook de deploy creado")
+
     pinfo("#{proj_path}/#{name} iniciado")
-    pwarn("Es necesario hacer push en el host")
   end
 
-  def queca_init_proj_host(name, server="queca.lan")
-    system("git remote add queca ssh://user@queca.lan/var/www/projects/test")
+  def queca_init_host_git(name, remote="queca.lan")
+    pinfo("Preparando repositorio de trabajo")
+    system("git remote add #{remote} ssh://user@#{remote}/var/www/projects/#{name}")
     system("git push queca")
-    pinfo("Repo en #{server} actualizado")
+    pinfo("Repo #{name} actualizado")
+    pinfo("Ya puedes ejecutar git push #{remote} para hacer un despliegue")
   end
 
 end
