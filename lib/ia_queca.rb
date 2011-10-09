@@ -3,9 +3,9 @@ module Ia::Queca
   # Ejecuta ia queca --init-remote PROJ en QuecaSDK y depues
   # configura el repo de trabajo para poder hacer push a QuecaSDK
   def queca_prepare_deploy(name,remote)
-    pinfo("Ejecutando ia queca --initremote en ${remote}")
-    if system("ping -c 1 #{remote}")
-      system("ssh user@#{remote} -c 'ia queca --initremote #{name}'")
+    pinfo("Ejecutando ia queca --initremote en #{remote}")
+    if system("ping -c 1 #{remote} > /dev/null")
+      system("ssh user@#{remote} '~/.local/ia/bin/ia queca --initremote=#{name}'")
       queca_init_host_git(name,remote)
     else
       perr("El servidor #{remote} no responde")
@@ -79,8 +79,6 @@ exit if newrev.nil? or newrev == null_ref
   def queca_init_host_git(name, remote="queca.lan")
     pinfo("Preparando repositorio de trabajo")
     system("git remote add #{remote} ssh://user@#{remote}/var/www/projects/#{name}")
-    system("git push queca")
-    pinfo("Repo #{name} actualizado")
     pinfo("Ya puedes ejecutar git push #{remote} para hacer un despliegue")
   end
 
