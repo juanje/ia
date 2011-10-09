@@ -85,7 +85,7 @@ command :queca do |c|
 
       queca_prepare_deploy(options[:deploy],global_options[:remote])
     elsif options[:initremote]
-      queca_init_remote_git(option[:initremote])
+      queca_init_remote_git(options[:initremote])
     end
   end
 
