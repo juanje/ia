@@ -100,7 +100,7 @@ command :apache do |c|
 
   c.desc 'Especifica una ruta para guardar el archivo'
   c.arg_name 'ruta'
-  c.flag [:r,:path]
+  c.flag [:p,:path]
 
   c.desc 'Activa la configuracion y recarga apache'
   c.switch [:e,:enable]
