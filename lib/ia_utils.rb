@@ -40,5 +40,14 @@ module Ia::Utils
       perr("El archivo #{file} no existe.")
     end
   end
+  
+  # ¿Estamos ejecutandonos en un QuecaSDK?
+  def queca?
+    if FileTest.exists?("~/.QuecaSDK")
+      true
+    else
+      false
+    end
+  end
 
 end
