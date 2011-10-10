@@ -66,12 +66,12 @@ module Ia::Apache
   # Activa la configuracion y recarga apache
   def apache_enable_site(name)
     pinfo("Activando configuracion..")
-    system("a2ensite #{name}")
+    system("sudo a2ensite #{name}")
 
     pwarn('*** Apache va a recargarse (3s para cancelar ctrl+c) *** '.color(:yellow))
     sleep 3
 
-    system("service apache2 reload")
+    system("sudo service apache2 reload")
   end
 
  end
