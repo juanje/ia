@@ -12,7 +12,7 @@ module Ia::Apache
     ServerName #{name}.#{domain}
     ServerAlias *.#{name}.#{domain}
     DocumentRoot /var/www/projects/#{name}/trunk
-    
+
     <Directory /var/www/projects/#{name}/trunk>
       Options FollowSymLinks
       AllowOverride All

@@ -43,10 +43,10 @@ module Ia::Utils
   
   # ¿Estamos ejecutandonos en un QuecaSDK?
   def queca?
-    if FileTest.exists?("~/.QuecaSDK")
-      true
+    if FileTest.exists?("/home/user/.QuecaSDK")
+      return true
     else
-      false
+      return false
     end
   end
 
