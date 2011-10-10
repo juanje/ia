@@ -1,4 +1,7 @@
-source :rubygems
-gemspec
-redmine_client
-net-ssh
+source 'http://rubygems.org'
+#gemspec
+
+gem 'gli'
+gem 'rainbow'
+gem 'redmine_client'
+gem 'simple_progressbar'
