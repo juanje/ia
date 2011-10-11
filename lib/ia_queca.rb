@@ -82,5 +82,12 @@ exit if newrev.nil? or newrev == null_ref
     pinfo("Ya puedes ejecutar git push #{remote} para hacer un despliegue")
   end
 
-end
+  # sincronizamos BBDD
+  def queca_syncdb(name,remote,config)
+    pinfo("Ejecutando sync ddbb en #{remote}")
+    cfg = yaml_read(config)
 
+    system("ssh user@#{remote} '/home/usuario/.local/drush/drush --cache 5 --source-db-url mysqli://#{cfg[:masterdb][:sql_user]}:#{cfg[:masterdb][:sql_pass]}@#{remote}/#{name} --target-db-url mysqli://#{cfg[:slavedb][:sql_user]}:#{cfg[:slavedb][:sql_pass]}@localhost/#{name}'")
+  end
+
+end

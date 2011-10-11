@@ -4,11 +4,10 @@ require 'csv'
 
 module Ia::Redmine
 
-  def redmine_export_csv(file)
-    cfg_file = File.expand_path("~/.ia_config")
-    cfg = yaml_read(cfg_file)
+  def redmine_export_csv(file, config)
+    cfg = yaml_read(config)
     
-    csv_file = export
+    csv_file = file
 
     RedmineClient::Base.configure do
       self.site =     cfg['redmine']['url']

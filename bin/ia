@@ -58,7 +58,16 @@ desc 'Commitear cambios al repositorio donde es posible'
 switch [:c,:commit]
 
 desc 'Pretende ejecutar la accion pero solo muestra que pasaria (no todos los comandos lo soportan)'
-switch [:p,:pretend]
+switch [:pretend]
+
+desc 'Nombre del proyecto (los nombres de directorios deben de ser homogeneos)'
+arg_name 'Nombre del proyecto'
+flag [:n,:name]
+
+desc 'Archivo de configuracion de IA (~/.ia_config por defecto)'
+default_value File.expand_path('~/.ia_config')
+arg_name 'Archivo de configuracion'
+flag [:config]
 
 desc 'Servidor remoto donde ejecutar los comandos. (QuecaSDK)'
 default_value 'queca.lan'
@@ -68,37 +77,40 @@ flag [:r,:remote]
 desc 'Interactua con QuecaSDK'
 command :queca do |c|
   c.desc 'Prepara el repositorio remoto y el local para poder hacer despliegues en QuecaSDK'
-  c.arg_name 'nombre del proyecto'
-  c.flag [:d,:deploy]
+  c.switch [:d,:deploy]
   
   c.desc 'Inicializa el repo en QuecaSDK (avanzado)'
-  c.arg_name 'nombre del proyecto'
-  c.flag [:initremote]
+  c.switch [:initremote]
+
+  c.desc 'Sincroniza la BBDD de integracion a QuecaSDK'
+  c.switch [:s,:sync]
 
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando".color(:red) unless options.size > 0
+
+    command?
+    remote?
+    name?
+
+    if options[:deploy] || options[:sync]
+      pwarn "Se intentara conectar al servidor #{global_options[:remote]}"
+    end
 
     if options[:deploy]
-      pwarn "Se intentara conectar al servidor #{global_options[:remote]}"
-      puts('*** Este comando debe ejecutarse dentro del repo de trabajo y con QuecaSDK activo (3s para cancelar ctrl+c) *** '.color(:yellow))
-      sleep 3
-
-      queca_prepare_deploy(options[:deploy],global_options[:remote])
+      git?
+      queca_prepare_deploy(global_options[:name],global_options[:remote])
     elsif options[:initremote]
-      pwarn("************* 01")
-      queca_init_remote_git(options[:initremote])
-      pwarn("************* 99")
+      queca_init_remote_git(global_options[:name])
+    elsif options[:sync]
+      queca_syncdb(global_options[:name],global_options[:remote],:global_options[:config])
     end
   end
 
 end
 
 desc 'Interactua con apache modificando archivos de configuracion'
-# arg_name 'files [command[ command]*'
 command :apache do |c|
   c.desc 'Genera configuracion de apache para un proyecto'
-  c.arg_name 'nombre del proyecto'
-  c.flag [:g,:generate]
+  c.switch [:g,:generate]
 
   c.desc 'Especifica una ruta para guardar el archivo'
   c.arg_name 'ruta'
@@ -108,12 +120,13 @@ command :apache do |c|
   c.switch [:e,:enable]
 
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+    command?
+    name?
 
     if options[:generate]
       pinfo('Generando configuracion de Apache')
-      apache_gen_config_file(options[:generate],options[:path])
-      apache_enable_site(options[:generate]) if options[:enable]
+      apache_gen_config_file(global_options[:name],options[:path]) if options[:generate]
+      apache_enable_site(global_options[:name]) if options[:enable]
     end
   end
 end
@@ -125,7 +138,8 @@ command :drupal do |c|
   c.switch [:rm,:rmfiles]
 
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+    
+    command?
 
     if options[:rmfiles]
       pinfo('Buscando archivos inseguros')
@@ -145,7 +159,7 @@ command :svn do |c|
   # c.default_value 'default'
   # c.flag :f
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando y una opcion".color(:red) unless options.size >= 1
+    command?
     raise "El directorio actual no es un repositorio".color(:red) unless FileTest::directory?('.svn')
 
     if options[:init]
@@ -164,11 +178,11 @@ command :redmine do |c|
   c.flag [:e,:export]
   
   c.action do |global_options,options,args|
-    raise "Necesitas especificar un comando".color(:red) unless options.size >= 1
+    command?
 
     if options[:export]
       pinfo('Exportando tareas a Redmine')
-      redmine_export_csv(options[:export])
+      redmine_export_csv(options[:export], global_options[:config])
     end
   end
 end
@@ -183,7 +197,7 @@ pre do |global,command,options,args|
     puts('*** los cambios seran aplicados al repo (3s para cancelar ctrl+c) *** '.color(:yellow))
     sleep 3
   end
-  
+
   true
 end
 

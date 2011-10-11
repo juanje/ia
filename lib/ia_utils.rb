@@ -50,4 +50,21 @@ module Ia::Utils
     end
   end
 
+
+  def command?(global_options)
+    raise "Necesitas especificar un comando".color(:red) unless options.size > 0
+  end
+  def name?(global_options)
+    raise "** Necesitas especificar un nombre de proyecto (-n)".color(:red) unless global_options[:name]
+  end
+  def remote?(global_options)
+    raise "** Necesitas especificar un servidor remoto QuecaSDK (-r)".color(:red) unless global_options[:name]
+  end
+  def git?(global_options)
+    raise "** No estas en un repo GIT".color(:red) unless FileTes.exists?(".git")
+  end
+  def iacfg?(global_options)
+    raise "** Necesitas definir ~/.ia_config para usar este comando".color(:red) unless FileTes.exists?("~/.ia_config")
+  end
+
 end
