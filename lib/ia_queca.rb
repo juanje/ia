@@ -84,11 +84,15 @@ exit if newrev.nil? or newrev == null_ref
 
   # sincronizamos BBDD
   def queca_syncdb(source, target)
-    if queca?
-      pinfo("Ejecutando sync ddbb : #{source} => #{target}")
-      system("drush sql-sync @#{source} @#{target}")
-    else
-      perr("Este comando debe ser ejecutado en Queca por seguridad")
-    end
+    pinfo("Ejecutando sync ddbb : #{source} => #{target}")
+    system("drush sql-sync @#{source} @#{target}")
+    pinfo("Sync DDBB temrinado")
+  end
+
+  # Sincronizamos el directorio files
+  def queca_syncfiles(source, target)
+    pinfo("Ejecutando sync files : #{source} => #{target}")
+    system("drush rsync @#{source}:%files @#{target}:%files")
+    pinfo("Sync Files temrinado")
   end
 end

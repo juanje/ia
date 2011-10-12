@@ -82,7 +82,7 @@ command :queca do |c|
   c.desc 'Inicializa el repo en QuecaSDK (avanzado)'
   c.switch [:initremote]
 
-  c.desc 'Sincroniza la BBDD de integracion a QuecaSDK usando alias de drush (necesitas tener configurado los alias en Queca)'
+  c.desc 'Sincroniza la BBDD y el directorio files de integracion a QuecaSDK usando alias de drush (necesitas tener configurado los alias en Queca)'
   c.switch [:s,:sync]
   
   c.desc 'Alias drush para usar como fuente de datos'
@@ -109,7 +109,12 @@ command :queca do |c|
       name?(global_options)
       queca_init_remote_git(global_options[:name])
     elsif options[:sync]
-      queca_syncdb(options[:source], options[:target])
+      if queca?
+        queca_syncdb(options[:source], options[:target])
+        queca_syncfiles(options[:source], options[:target])
+      else
+        perr("Este comando debe ser ejecutado en Queca por seguridad")
+      end
     end
   end
 
