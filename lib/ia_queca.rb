@@ -86,7 +86,7 @@ exit if newrev.nil? or newrev == null_ref
   def queca_syncdb(source, target)
     if queca?
       pinfo("Ejecutando sync ddbb : #{source} => #{target}")
-      system("drush sql-sync --cache 5 @#{source} @#{target}")
+      system("drush sql-sync @#{source} @#{target}")
     else
       perr("Este comando debe ser ejecutado en Queca por seguridad")
     end
