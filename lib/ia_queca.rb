@@ -83,11 +83,12 @@ exit if newrev.nil? or newrev == null_ref
   end
 
   # sincronizamos BBDD
-  def queca_syncdb(name,remote,config)
-    pinfo("Ejecutando sync ddbb en #{remote}")
-    cfg = yaml_read(config)
-
-    system("ssh user@#{remote} '/home/usuario/.local/drush/drush --cache 5 --source-db-url mysqli://#{cfg[:masterdb][:sql_user]}:#{cfg[:masterdb][:sql_pass]}@#{remote}/#{name} --target-db-url mysqli://#{cfg[:slavedb][:sql_user]}:#{cfg[:slavedb][:sql_pass]}@localhost/#{name}'")
+  def queca_syncdb(source, target)
+    if queca?
+      pinfo("Ejecutando sync ddbb : #{source} => #{target}")
+      system("drush --cache 5 @#{source} @#{target}")
+    else
+      perr("Este comando debe ser ejecutado en Queca por seguridad")
+    end
   end
-
 end

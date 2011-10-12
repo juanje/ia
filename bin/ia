@@ -82,26 +82,34 @@ command :queca do |c|
   c.desc 'Inicializa el repo en QuecaSDK (avanzado)'
   c.switch [:initremote]
 
-  c.desc 'Sincroniza la BBDD de integracion a QuecaSDK'
+  c.desc 'Sincroniza la BBDD de integracion a QuecaSDK usando alias de drush (necesitas tener configurado los alias en Queca)'
   c.switch [:s,:sync]
+  
+  c.desc 'Alias drush para usar como fuente de datos'
+  c.default_value 'pre'
+  c.flag [:src, :source]
+
+  c.desc 'Alias drush para usar como destino de datos'
+  c.default_value 'queca'
+  c.flag [:tgt, :target]
 
   c.action do |global_options,options,args|
 
-    command?
-    remote?
-    name?
+    command?(options)
 
-    if options[:deploy] || options[:sync]
+    if options[:deploy]
+      remote?(global_options)
       pwarn "Se intentara conectar al servidor #{global_options[:remote]}"
     end
 
     if options[:deploy]
       git?
-      queca_prepare_deploy(global_options[:name],global_options[:remote])
+      queca_prepare_deploy(global_options[:remote])
     elsif options[:initremote]
+      name?(global_options)
       queca_init_remote_git(global_options[:name])
     elsif options[:sync]
-      queca_syncdb(global_options[:name],global_options[:remote],:global_options[:config])
+      queca_syncdb(options[:source], options[:target])
     end
   end
 
@@ -120,8 +128,8 @@ command :apache do |c|
   c.switch [:e,:enable]
 
   c.action do |global_options,options,args|
-    command?
-    name?
+    command?(options)
+    name?(global_options)
 
     if options[:generate]
       pinfo('Generando configuracion de Apache')
@@ -139,7 +147,7 @@ command :drupal do |c|
 
   c.action do |global_options,options,args|
     
-    command?
+    command?(options)
 
     if options[:rmfiles]
       pinfo('Buscando archivos inseguros')
@@ -159,7 +167,7 @@ command :svn do |c|
   # c.default_value 'default'
   # c.flag :f
   c.action do |global_options,options,args|
-    command?
+    command?(options)
     raise "El directorio actual no es un repositorio".color(:red) unless FileTest::directory?('.svn')
 
     if options[:init]
@@ -178,7 +186,7 @@ command :redmine do |c|
   c.flag [:e,:export]
   
   c.action do |global_options,options,args|
-    command?
+    command?(options)
 
     if options[:export]
       pinfo('Exportando tareas a Redmine')
