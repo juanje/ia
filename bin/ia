@@ -107,7 +107,7 @@ command :queca do |c|
       queca_prepare_deploy(global_options[:remote])
     elsif options[:initremote]
       name?(global_options)
-      queca_init_remote_git(global_options[:name])
+      queca_init_remote_git(global_options[:name], global_options[:remote])
     elsif options[:sync]
       if queca?
         queca_syncdb(options[:source], options[:target])
