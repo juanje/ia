@@ -104,6 +104,7 @@ command :queca do |c|
 
     if options[:deploy]
       git?
+      name?(global_options)
       queca_prepare_deploy(global_options[:remote], global_options[:remote])
     elsif options[:initremote]
       name?(global_options)
