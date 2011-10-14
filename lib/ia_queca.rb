@@ -5,7 +5,7 @@ module Ia::Queca
   def queca_prepare_deploy(name,remote)
     pinfo("Ejecutando ia queca --initremote en #{remote}")
     if system("ping -c 1 #{remote} > /dev/null")
-      system("ssh user@#{remote} '~/.local/ia/bin/ia queca --name=#{name} --initremote'")
+      system("ssh user@#{remote} '~/.local/ia/bin/ia --name=#{name} queca --initremote'")
       queca_init_host_git(name,remote)
     else
       perr("El servidor #{remote} no responde")
