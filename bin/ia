@@ -37,6 +37,7 @@ require 'ia_fs'
 require 'ia_drupal'
 require 'ia_apache'
 require 'ia_svn'
+require 'ia_git'
 require 'ia_redmine'
 require 'ia_queca'
 
@@ -47,6 +48,7 @@ include Ia::Fs
 include Ia::Apache
 include Ia::Drupal::Files
 include Ia::Svn
+include Ia::Git
 include Ia::Redmine
 include Ia::Queca
 
@@ -179,6 +181,32 @@ command :svn do |c|
     if options[:init]
       pinfo("Creando estructura SVN...")
       svn_scaffold(global_options[:commit])
+    end
+
+  end
+end
+
+desc 'Crear o modifica la estructura del repositorio git'
+long_desc 'El comando git manipula el repositorio git en el que se ejecuta. Se debe ejecutar en la raiz del repositorio'
+# arg_name 'init [command[ command]*]'
+command :git do |c|
+  c.desc 'Crea estructura inicial en el repositorio.'
+  c.switch [:i,:init]
+
+  #FIXME: Añadir comandos para:
+    # * Añadir el remote origin
+    # * Añadir el remote upstream
+  # c.desc 'Describe a flag to git'
+  # c.default_value 'default'
+  # c.flag :f
+  c.action do |global_options,options,args|
+    raise "Necesitas especificar un comando y una opcion".color(:red) unless options.size >= 1
+
+    if options[:init]
+      pinfo("Creando estructura Git...")
+      git_scaffold
+    else
+      raise "El directorio actual no es un repositorio".color(:red) unless FileTest::directory?('.git')
     end
 
   end
