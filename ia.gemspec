@@ -11,6 +11,14 @@ spec = Gem::Specification.new do |s|
 # Add your other files here if you make them
   s.files = %w(
 bin/ia
+lib/ia_apache.rb
+lib/ia_drupal.rb
+lib/ia_fs.rb
+lib/ia_queca.rb
+lib/ia_redmine.rb
+lib/ia_svn.rb
+lib/ia_utils.rb
+lib/ia_version.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
