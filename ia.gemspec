@@ -22,7 +22,7 @@ lib/ia_version.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc','ia.rdoc']
+  s.extra_rdoc_files = ['README.rdoc']
   s.rdoc_options << '--title' << 'ia' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'ia'
