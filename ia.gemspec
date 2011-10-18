@@ -5,9 +5,10 @@ spec = Gem::Specification.new do |s|
   s.version = Ia::VERSION
   s.author = 'JoseAlberto Suárez López'
   s.email = 'jasuarez@emergya.com'
-  s.homepage = ''
+  s.homepage = 'http://github.com/Emergya/ia'
   s.platform = Gem::Platform::RUBY
   s.summary = 'Internet Automator'
+  s.description = "A handy CLI for common tasks at Internet's projects"
 # Add your other files here if you make them
   s.files = %w(
 bin/ia
