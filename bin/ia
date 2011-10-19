@@ -191,22 +191,26 @@ long_desc 'El comando git manipula el repositorio git en el que se ejecuta. Se d
 # arg_name 'init [command[ command]*]'
 command :git do |c|
   c.desc 'Crea estructura inicial en el repositorio.'
-  c.switch [:i,:init]
+  c.arg_name 'Nombre del proyecto'
+  c.flag [:i,:init]
+
+  c.desc 'Configura el remote "upstream" del proyecto.'
+  c.switch [:u,:upstream]
 
   #FIXME: Añadir comandos para:
     # * Añadir el remote origin
-    # * Añadir el remote upstream
-  # c.desc 'Describe a flag to git'
-  # c.default_value 'default'
-  # c.flag :f
   c.action do |global_options,options,args|
     raise "Necesitas especificar un comando y una opcion".color(:red) unless options.size >= 1
 
     if options[:init]
-      pinfo("Creando estructura Git...")
-      git_scaffold
-    else
+      raise "El directorio actual ya es un repositorio".color(:red) if FileTest::directory?('.git')
+      pinfo("Creando estructura Git para el proyecto #{options[:init]}...")
+      git_scaffold(options[:init])
+      git_set_upstream(options[:init]) if options[:upstream]
+    elsif options[:upstream]
       raise "El directorio actual no es un repositorio".color(:red) unless FileTest::directory?('.git')
+      projectname = File.split(Dir.pwd).last
+      git_set_upstream(projectname)
     end
 
   end
