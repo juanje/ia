@@ -18,6 +18,7 @@ lib/ia_fs.rb
 lib/ia_queca.rb
 lib/ia_redmine.rb
 lib/ia_svn.rb
+lib/ia_git.rb
 lib/ia_utils.rb
 lib/ia_version.rb
   )
