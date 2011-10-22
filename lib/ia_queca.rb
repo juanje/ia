@@ -92,7 +92,7 @@ exit if newrev.nil? or newrev == null_ref
   # Sincronizamos el directorio files
   def queca_syncfiles(source, target)
     pinfo("Ejecutando sync files : #{source} => #{target}")
-    system("drush rsync @#{source}:%files @#{target}:%files")
+    system("drush rsync @#{source}:%files @#{target}:%files --progress")
     pinfo("Sync Files temrinado")
   end
 end
