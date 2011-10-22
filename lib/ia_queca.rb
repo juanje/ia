@@ -20,7 +20,7 @@ module Ia::Queca
 
     pinfo("Git iniciado y configurado en #{proj_path}/#{name}")
 
-    hook = %{#!/home/user/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
+    hook = %{#!/usr/local/rvm/rubies/ruby-1.9.2-p290/bin/ruby
 
 # Aside from removing Ruby on Rails specific code this is taken verbatim from
 # mislav's git-deploy (http://github.com/mislav/git-deploy) and it's awesome
